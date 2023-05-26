@@ -49,8 +49,13 @@ We will utilize this model of our tree to develop out and algorithm identifying 
   
 \end{itemize}
 
-Then we create an array 'flows' that has one row for each 
-For each node in a given path, and the edge it immediately connects to:
+Then we create an array 'flows' that has one row for each.
+
+In summary, we proceed as follows: simulate water flowing down the branch, navigating each path from end node to root and keeping a running sum of each cylinders' volume, surface area etc. as we pass.  If we arrive at a sharp change in angle, we assume that the water collected in our flow thus far all drips off and becomes through fall. We add a row to our flow vectors with the current running sums, mark all the nodes traveled thus far as being in this flow, and reset as if we just started. Likewise, if we come across a cylinder (or several in a row) tilted away from the tree, we add the values for these to our current sum we mark these, in addition to the nodes already traversed in the current flow, as in our newly created flow. We then enter a new flow 
+
+The first path that is traveled will take us all of the way to the branch of order 1 that connects the current graph component ( the current branch) to the trunk. Once we arrive at this point, we add the current flow to a special array containing only our stem flows. In the subsequent paths, we will eventually arrive at a node that was previously traversed, and thus has a label noting which flow it is in. We then simply add our current running sums to the values for that flow and move on to the next path, confident that the remainder of the nodes in our current row have already been previously traversed.
+
+To describe this process more precisely, for the researchers own sanity, one would achieve the above as follows.For each node in a given path, and the edge it immediately connects to:
 \begin{itemize}
     \item calculate the angle of the cylinder via the unit vector
     \item Add the length, surface area and angle to a running sum
